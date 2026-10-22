@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Mitsukaru &ndash; Code noch frei</title>
+<style>
+:root{--bg:#f4f3ef;--card:#ffffff;--text:#1c2228;--muted:#5d6670;--line:#e2e1db;--accent:#1c2228;--accent-fg:#ffffff;--star:#c98a12}
+@media (prefers-color-scheme:dark){:root{--bg:#15191d;--card:#1e2328;--text:#eceee9;--muted:#9aa3ad;--line:#2f363d;--accent:#eceee9;--accent-fg:#15191d;--star:#e3a83a}}
+*{box-sizing:border-box}html,body{margin:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;line-height:1.5}
+.card{background:var(--card);width:100%;max-width:440px;border-radius:18px;padding:32px 24px}
+.stars{font-size:26px;letter-spacing:4px;color:var(--star);text-align:center}
+h1{font-size:22px;margin:14px 0 8px;text-align:center}
+p{margin:0 0 10px;color:var(--muted);font-size:15px}
+.code{display:none;margin:0 auto 14px;width:max-content;border:1px solid var(--line);border-radius:999px;padding:4px 14px;font-size:14px;font-variant-numeric:tabular-nums}
+ul{margin:8px 0 18px;padding-left:20px;color:var(--muted);font-size:15px}
+.btn{display:block;text-align:center;background:var(--accent);color:var(--accent-fg);text-decoration:none;font-weight:600;font-size:15px;padding:13px 20px;border-radius:12px}
+.mail{text-align:center;margin-top:10px;font-size:14px;color:var(--muted);user-select:all}
+.foot{text-align:center;margin-top:22px;font-size:13px;color:var(--muted)}
+.foot a{color:inherit}
+</style>
+</head>
+<body>
+<main class="card">
+<div class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+<h1>Dieser St&auml;nder ist noch frei</h1>
+<div class="code" id="code"></div>
+<p>Mit Mitsukaru geben Ihre Kunden in Sekunden eine Google-Bewertung ab: Handy antippen oder QR-Code scannen, fertig.</p>
+<ul>
+<li>Bewertungsst&auml;nder mit QR-Code und NFC</li>
+<li>Individuell f&uuml;r Ihren Betrieb eingerichtet</li>
+<li>Optional: laufende Pflege Ihres Google-Profils</li>
+</ul>
+<a class="btn" id="mailBtn" href="mailto:julianschatz07@gmail.com?subject=Anfrage%20Mitsukaru">Jetzt anfragen</a>
+<div class="mail">julianschatz07@gmail.com</div>
+<div class="foot"><a href="/">mitsukaru.de</a></div>
+</main>
+<script>
+(function () {
+  var code = new URLSearchParams(location.search).get("code");
+  if (!code) return;
+  var el = document.getElementById("code");
+  el.textContent = "Code " + code;
+  el.style.display = "block";
+  document.getElementById("mailBtn").href =
+    "mailto:julianschatz07@gmail.com?subject=" + encodeURIComponent("Anfrage Mitsukaru, Code " + code);
+})();
+</script>
+</body>
+</html>
