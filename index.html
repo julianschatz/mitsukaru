@@ -3,30 +3,291 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mitsukaru &ndash; Mehr Google-Bewertungen f&uuml;r lokale Betriebe</title>
-<meta name="description" content="Bewertungsst&auml;nder mit QR-Code und NFC f&uuml;r lokale Betriebe in Stuttgart und Ludwigsburg.">
+<title>Mitsukaru – Mehr Google-Bewertungen für lokale Betriebe</title>
+<meta name="description" content="Bewertungsständer mit QR-Code und NFC und laufende Pflege Ihres Google-Profils. Für lokale Betriebe in Stuttgart und Ludwigsburg.">
 <style>
-:root{--bg:#f4f3ef;--card:#ffffff;--text:#1c2228;--muted:#5d6670;--accent:#1c2228;--accent-fg:#ffffff;--star:#c98a12}
-@media (prefers-color-scheme:dark){:root{--bg:#15191d;--card:#1e2328;--text:#eceee9;--muted:#9aa3ad;--accent:#eceee9;--accent-fg:#15191d;--star:#e3a83a}}
-*{box-sizing:border-box}html,body{margin:0}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;line-height:1.5}
-main{width:100%;max-width:520px;text-align:center}
-.stars{font-size:26px;letter-spacing:4px;color:var(--star)}
-h1{font-size:34px;margin:10px 0 4px;letter-spacing:-.01em}
-.sub{font-size:15px;color:var(--muted);margin:0 0 20px}
-p{font-size:16px;color:var(--muted);margin:0 0 24px}
-.btn{display:inline-block;background:var(--accent);color:var(--accent-fg);text-decoration:none;font-weight:600;font-size:15px;padding:13px 22px;border-radius:12px}
-.mail{margin-top:10px;font-size:14px;color:var(--muted);user-select:all}
+:root{
+  --bg:#f4f3ef; --surface:#ffffff; --ink:#1c2228; --muted:#5d6670; --line:#e2e1db;
+  --accent:#1c2228; --accent-fg:#ffffff; --star:#c98a12; --star-soft:#f6ead0;
+  --radius:16px;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#15191d;--surface:#1e2328;--ink:#eceee9;--muted:#9aa3ad;--line:#2f363d;
+        --accent:#eceee9;--accent-fg:#15191d;--star:#e3a83a;--star-soft:#3a2f17}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding-inline:20px}
+h1,h2,h3{margin:0;line-height:1.15;text-wrap:balance;letter-spacing:-.015em}
+section{padding-block:64px}
+.eyebrow{font-size:14px;font-weight:600;color:var(--star);margin-bottom:10px}
+h2{font-size:clamp(26px,4vw,36px);margin-bottom:12px}
+.lead{color:var(--muted);max-width:36em;margin:0}
+
+/* Buttons */
+.btn{display:inline-block;background:var(--accent);color:var(--accent-fg);text-decoration:none;font-weight:600;font-size:15px;padding:13px 22px;border-radius:12px;border:2px solid var(--accent)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn:focus-visible{outline:3px solid var(--star);outline-offset:2px}
+
+/* Kopfzeile */
+header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
+.logo{font-weight:800;font-size:19px;text-decoration:none;letter-spacing:-.01em}
+.logo span{color:var(--star)}
+.nav-links{display:flex;align-items:center;gap:22px;font-size:15px}
+.nav-links a:not(.btn){text-decoration:none;color:var(--muted)}
+.nav-links .btn{padding:9px 16px}
+@media (max-width:640px){.nav-links a:not(.btn){display:none}}
+
+/* Einstieg */
+.hero{padding-block:72px 56px}
+.hero-grid{display:grid;gap:48px;align-items:center}
+@media (min-width:860px){.hero-grid{grid-template-columns:1.25fr 1fr}}
+.hero h1{font-size:clamp(36px,6vw,58px);font-weight:800;margin-bottom:18px}
+.hero p{font-size:18px;color:var(--muted);max-width:30em;margin:0 0 28px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+.jp{margin-top:22px;font-size:14px;color:var(--muted)}
+.jp b{color:var(--ink);font-weight:600}
+
+/* Ständer-Grafik */
+.stand-wrap{display:flex;justify-content:center}
+.stand{width:230px;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:26px 22px 20px;text-align:center;box-shadow:0 24px 50px -28px rgba(0,0,0,.45);position:relative}
+.stand::after{content:"";position:absolute;left:50%;bottom:-14px;transform:translateX(-50%);width:150px;height:14px;background:var(--surface);border:1px solid var(--line);border-top:0;border-radius:0 0 12px 12px}
+.stand .s{color:var(--star);font-size:18px;letter-spacing:4px}
+.stand .t{font-weight:700;font-size:18px;margin:8px 0 16px}
+.qr{width:92px;height:92px;margin:0 auto 14px;display:grid;grid-template-columns:repeat(7,1fr);gap:2px;padding:6px;background:#fff;border-radius:8px;border:1px solid var(--line)}
+.qr i{background:#1c2228;border-radius:1px}
+.qr i.o{background:transparent}
+.stand .tap{font-size:12px;color:var(--muted)}
+.stand .num{position:absolute;right:12px;bottom:8px;font-size:10px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* Schritte */
+.steps{display:grid;gap:16px;margin-top:32px}
+@media (min-width:760px){.steps{grid-template-columns:repeat(3,1fr)}}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+.step .n{width:34px;height:34px;border-radius:50%;background:var(--star-soft);color:var(--star);display:grid;place-items:center;font-weight:800;margin-bottom:14px}
+.step h3{font-size:18px;margin-bottom:6px}
+.step p{margin:0;color:var(--muted);font-size:15px}
+
+/* Ständer-Angebot */
+.offer{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:32px;display:grid;gap:28px;align-items:center}
+@media (min-width:760px){.offer{grid-template-columns:1.4fr 1fr}}
+.offer ul{margin:16px 0 0;padding-left:20px;color:var(--muted)}
+.price-box{border:1px solid var(--line);border-radius:var(--radius);padding:22px;display:grid;gap:14px}
+.price-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.price-row b{font-size:26px;font-variant-numeric:tabular-nums}
+.price-row span{color:var(--muted);font-size:15px}
+.price-row.free b{color:var(--star)}
+.small{font-size:13px;color:var(--muted)}
+
+/* Pakete */
+.tiers{display:grid;gap:16px;margin-top:32px;align-items:stretch}
+@media (min-width:860px){.tiers{grid-template-columns:repeat(3,1fr)}}
+.tier{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:28px 24px;display:flex;flex-direction:column}
+.tier.feat{border:2px solid var(--star);position:relative}
+.badge{position:absolute;top:-13px;left:24px;background:var(--star);color:#1c2228;font-size:12px;font-weight:700;padding:4px 12px;border-radius:999px}
+.tier h3{font-size:20px}
+.tier .amt{font-size:40px;font-weight:800;margin:10px 0 0;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.tier .per{color:var(--muted);font-size:14px;margin-bottom:18px}
+.tier ul{list-style:none;margin:0 0 24px;padding:0;display:grid;gap:10px;align-content:start;font-size:15px;flex:1}
+.tier li{padding-left:26px;position:relative}
+.tier li::before{content:"★";position:absolute;left:0;top:0;color:var(--star);font-size:14px}
+.tier .btn{text-align:center}
+.note{margin-top:18px}
+
+/* Kontakt */
+.contact{background:var(--accent);color:var(--accent-fg);border-radius:24px;padding:44px 32px;text-align:center}
+.contact h2{margin-bottom:12px}
+.contact p{max-width:34em;margin:0 auto 26px;opacity:.85}
+.contact .actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.contact .btn{background:var(--accent-fg);color:var(--accent);border-color:var(--accent-fg)}
+.contact .btn.ghost{background:transparent;color:var(--accent-fg)}
+.contact .mail{margin-top:18px;font-size:15px;opacity:.85;user-select:all}
+
+/* Fußzeile */
+footer{padding-block:36px 48px;color:var(--muted);font-size:14px}
+.foot{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between}
+.foot nav{display:flex;gap:20px}
+.foot a{text-decoration:none}
+.foot a:hover{text-decoration:underline}
+.disclaimer{margin-top:14px;font-size:12.5px}
 </style>
 </head>
 <body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="/">Mitsukaru<span>.</span></a>
+    <nav class="nav-links" aria-label="Hauptnavigation">
+      <a href="#so-gehts">So geht's</a>
+      <a href="#pakete">Pakete</a>
+      <a href="#kontakt">Kontakt</a>
+      <a class="btn" href="mailto:julianschatz07@gmail.com?subject=Anfrage%20Mitsukaru">Anfragen</a>
+    </nav>
+  </div>
+</header>
+
 <main>
-<div class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-<h1>Mitsukaru</h1>
-<div class="sub">見つかる &middot; gefunden werden</div>
-<p>Bewertungsst&auml;nder mit QR-Code und NFC f&uuml;r lokale Betriebe. Ihre Kunden tippen ihr Handy an und geben in Sekunden eine Google-Bewertung ab.</p>
-<a class="btn" href="mailto:julianschatz07@gmail.com?subject=Anfrage%20Mitsukaru">Anfrage senden</a>
-<div class="mail">julianschatz07@gmail.com</div>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Mehr Google-Bewertungen für lokale Betriebe</h1>
+      <p>Ihre Kunden halten das Handy an den Ständer oder scannen den QR-Code und geben in Sekunden eine Bewertung ab. Auf Wunsch kümmere ich mich auch um Ihr Google-Profil.</p>
+      <div class="hero-actions">
+        <a class="btn" href="mailto:julianschatz07@gmail.com?subject=Anfrage%20Mitsukaru">Jetzt anfragen</a>
+        <a class="btn ghost" href="#pakete">Pakete ansehen</a>
+      </div>
+      <div class="jp"><b>見つかる (mitsukaru)</b> ist japanisch und heißt „gefunden werden".</div>
+    </div>
+    <div class="stand-wrap" aria-hidden="true">
+      <div class="stand">
+        <div class="s">★★★★★</div>
+        <div class="t">Bewerten Sie uns</div>
+        <div class="qr" id="qr"></div>
+        <div class="tap">Antippen oder scannen</div>
+        <div class="num">001</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="so-gehts">
+  <div class="wrap">
+    <div class="eyebrow">So geht's</div>
+    <h2>In drei Schritten zu mehr Sichtbarkeit</h2>
+    <p class="lead">Kein Suchen, kein Tippen. Ihre Kunden bewerten genau dann, wenn sie zufrieden bei Ihnen stehen.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="n">1</div>
+        <h3>Antippen</h3>
+        <p>Der Kunde hält sein Handy an den Ständer oder scannt den QR-Code. Das funktioniert mit jedem Smartphone.</p>
+      </div>
+      <div class="step">
+        <div class="n">2</div>
+        <h3>Bewerten</h3>
+        <p>Ihre Google-Bewertungsseite öffnet sich sofort. Der Kunde vergibt seine Sterne in wenigen Sekunden.</p>
+      </div>
+      <div class="step">
+        <div class="n">3</div>
+        <h3>Sichtbar werden</h3>
+        <p>Mehr und aktuelle Bewertungen stärken Ihren Betrieb in der lokalen Google-Suche und auf Google Maps.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="staender">
+  <div class="wrap">
+    <div class="offer">
+      <div>
+        <div class="eyebrow">Der Ständer</div>
+        <h2>Einmal hinstellen, dauerhaft Bewertungen sammeln</h2>
+        <ul>
+          <li>Hochwertiges Acryl mit QR-Code und NFC-Chip</li>
+          <li>Individuell für Ihren Betrieb eingerichtet</li>
+          <li>Ziel jederzeit änderbar, ohne neuen Ständer</li>
+          <li>Persönlich geliefert und aufgestellt</li>
+        </ul>
+      </div>
+      <div class="price-box">
+        <div class="price-row"><span>Ständer einzeln</span><b>39 €</b></div>
+        <div class="price-row free"><span>Mit einem Paket</span><b>gratis</b></div>
+        <div class="small">Gratis bei einer Mindestlaufzeit von 3 Monaten, danach monatlich kündbar.</div>
+        <a class="btn" href="mailto:julianschatz07@gmail.com?subject=Anfrage%20Bewertungsst%C3%A4nder">Ständer anfragen</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pakete">
+  <div class="wrap">
+    <div class="eyebrow">Pakete</div>
+    <h2>Ich halte Ihr Google-Profil in Bestform</h2>
+    <p class="lead">Sie konzentrieren sich auf Ihre Kunden, ich kümmere mich um Ihren Auftritt bei Google.</p>
+
+    <div class="tiers">
+      <div class="tier">
+        <h3>Starter</h3>
+        <div class="amt">29 €</div>
+        <div class="per">pro Monat</div>
+        <ul>
+          <li>Alle neuen Bewertungen beantwortet, innerhalb von 48 Stunden (werktags)</li>
+          <li>Monatliche Kurzübersicht mit neuen Bewertungen und Sterneschnitt</li>
+        </ul>
+        <a class="btn ghost" href="mailto:julianschatz07@gmail.com?subject=Anfrage%20Paket%20Starter">Starter anfragen</a>
+      </div>
+
+      <div class="tier feat">
+        <span class="badge">Beliebt</span>
+        <h3>Wachstum</h3>
+        <div class="amt">79 €</div>
+        <div class="per">pro Monat</div>
+        <ul>
+          <li>Alles aus Starter</li>
+          <li>5 Fotos pro Monat, davon 2 als Beitrag mit Text</li>
+          <li>Öffnungszeiten, Feiertage und Infos immer aktuell</li>
+          <li>Monatsreport mit Aufrufen, Anrufen, Routenanfragen und Klicks</li>
+        </ul>
+        <a class="btn" href="mailto:julianschatz07@gmail.com?subject=Anfrage%20Paket%20Wachstum">Wachstum anfragen</a>
+      </div>
+
+      <div class="tier">
+        <h3>Premium</h3>
+        <div class="amt">149 €</div>
+        <div class="per">pro Monat</div>
+        <ul>
+          <li>Alles aus Wachstum</li>
+          <li>4 statt 2 Beiträge pro Monat</li>
+          <li>Profil vollständig ausgebaut: Leistungen mit Preisen, Merkmale, Beschreibung</li>
+          <li>Jedes Quartal ein Vergleich mit 3 Wettbewerbern und konkreten Vorschlägen</li>
+        </ul>
+        <a class="btn ghost" href="mailto:julianschatz07@gmail.com?subject=Anfrage%20Paket%20Premium">Premium anfragen</a>
+      </div>
+    </div>
+    <p class="small note">Mindestlaufzeit 3 Monate, danach monatlich kündbar. Alle Preise sind Endpreise. Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.</p>
+  </div>
+</section>
+
+<section id="kontakt">
+  <div class="wrap">
+    <div class="contact">
+      <h2>Lassen Sie uns sprechen</h2>
+      <p>Ich komme gern bei Ihnen im Betrieb vorbei und zeige Ihnen den Ständer. Lieber online? Dann setzen wir uns einfach per Microsoft Teams zusammen.</p>
+      <div class="actions">
+        <a class="btn" href="mailto:julianschatz07@gmail.com?subject=Anfrage%20Mitsukaru">Per E-Mail anfragen</a>
+        <a class="btn ghost" href="mailto:julianschatz07@gmail.com?subject=Teams-Termin%20Mitsukaru&amp;body=Hallo%20Julian%2C%0A%0Aich%20h%C3%A4tte%20gern%20einen%20Teams-Termin.%0A%0AM%C3%B6gliche%20Zeiten%3A%0A%0ABetrieb%3A%0A">Teams-Termin anfragen</a>
+      </div>
+      <div class="mail">julianschatz07@gmail.com</div>
+    </div>
+  </div>
+</section>
+
 </main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>© 2026 Julian Schatz · Mitsukaru</div>
+      <nav aria-label="Rechtliches">
+        <a href="/impressum.html">Impressum</a>
+        <a href="/datenschutz.html">Datenschutz</a>
+      </nav>
+    </div>
+    <div class="disclaimer">Mitsukaru ist ein unabhängiger Dienstleister und steht in keiner Verbindung zu Google LLC.</div>
+  </div>
+</footer>
+
+<script>
+/* Deko-QR im Ständer: festes Muster, kein echter Code */
+(function(){
+  var p="1110111100100110111011101000101011101011011100100111011011101".split("");
+  var q=document.getElementById("qr"); if(!q) return;
+  for(var i=0;i<49;i++){var e=document.createElement("i"); if(p[i]!=="1") e.className="o"; q.appendChild(e);}
+})();
+</script>
 </body>
 </html>
